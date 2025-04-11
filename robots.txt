@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap:https://bmi-calculator-coral-phi.vercel.app/
