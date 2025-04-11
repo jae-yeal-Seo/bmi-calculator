@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BMI(체질량지수) 계산기 - 키와 몸무게를 입력하여 건강 상태를 확인하세요. 건강한 체중 관리에 도움이 되는 정보를 제공합니다.">
+    <meta name="keywords" content="BMI, 체질량지수, 건강, 체중, 계산기, 다이어트, 운동">
+    <meta name="author" content="BMI Calculator">
+    <title>BMI 계산기 - 건강한 체중 관리</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .info-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .info-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            margin-bottom: 10px;
+        }
+
+        .bmi-categories {
+            margin-top: 20px;
+        }
+
+        .bmi-categories table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .bmi-categories th,
+        .bmi-categories td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .bmi-categories th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>BMI 계산기</h1>
+
+        <div class="calculator">
+            <div class="input-group">
+                <label for="height">키 (cm)</label>
+                <input type="number" id="height" placeholder="키를 입력하세요">
+            </div>
+
+            <div class="input-group">
+                <label for="weight">몸무게 (kg)</label>
+                <input type="number" id="weight" placeholder="몸무게를 입력하세요">
+            </div>
+
+            <button onclick="calculateBMI()">BMI 계산하기</button>
+        </div>
+
+        <div id="result" class="result"></div>
+
+        <div class="info-section">
+            <h2>BMI란 무엇인가요?</h2>
+            <p>BMI(체질량지수)는 키와 몸무게를 이용하여 체지방률을 추정하는 지표입니다.
+                건강한 체중을 유지하는데 도움이 되는 수치를 제공합니다.</p>
+
+            <div class="bmi-categories">
+                <h3>BMI 범위별 분류</h3>
+                <table>
+                    <tr>
+                        <th>BMI 범위</th>
+                        <th>분류</th>
+                        <th>건강 상태</th>
+                    </tr>
+                    <tr>
+                        <td>18.5 미만</td>
+                        <td>저체중</td>
+                        <td>영양 섭취가 필요할 수 있습니다</td>
+                    </tr>
+                    <tr>
+                        <td>18.5 - 24.9</td>
+                        <td>정상</td>
+                        <td>건강한 체중입니다</td>
+                    </tr>
+                    <tr>
+                        <td>25.0 - 29.9</td>
+                        <td>과체중</td>
+                        <td>체중 관리가 필요합니다</td>
+                    </tr>
+                    <tr>
+                        <td>30.0 이상</td>
+                        <td>비만</td>
+                        <td>건강 관리가 필요합니다</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>건강 관리 팁</h3>
+            <ul>
+                <li>균형 잡힌 식습관을 유지하세요</li>
+                <li>규칙적인 운동을 실천하세요</li>
+                <li>충분한 수면을 취하세요</li>
+                <li>스트레스를 관리하세요</li>
+                <li>정기적인 건강 검진을 받으세요</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
+
+            if (!height || !weight) {
+                alert('키와 몸무게를 모두 입력해주세요.');
+                return;
+            }
+
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            const result = document.getElementById('result');
+
+            let category = '';
+            let message = '';
+
+            if (bmi < 18.5) {
+                category = '저체중';
+                message = '영양 섭취가 필요할 수 있습니다. 균형 잡힌 식습관을 유지하세요.';
+            } else if (bmi < 25) {
+                category = '정상';
+                message = '건강한 체중입니다. 현재 생활습관을 유지하세요.';
+            } else if (bmi < 30) {
+                category = '과체중';
+                message = '체중 관리가 필요합니다. 규칙적인 운동과 식습관 개선을 고려해보세요.';
+            } else {
+                category = '비만';
+                message = '건강 관리가 필요합니다. 전문가와 상담을 고려해보세요.';
+            }
+
+            result.innerHTML = `
+                <h2>당신의 BMI: ${bmi.toFixed(1)}</h2>
+                <p>분류: ${category}</p>
+                <p>${message}</p>
+            `;
+            result.style.display = 'block';
+            result.style.backgroundColor = getCategoryColor(category);
+        }
+
+        function getCategoryColor(category) {
+            switch (category) {
+                case '저체중':
+                    return '#f8d7da';
+                case '정상':
+                    return '#d4edda';
+                case '과체중':
+                    return '#fff3cd';
+                case '비만':
+                    return '#f8d7da';
+                default:
+                    return '#f8f9fa';
+            }
+        }
+    </script>
+</body>
+
+</html>
